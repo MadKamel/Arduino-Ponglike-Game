@@ -1,4 +1,4 @@
-// Code written by MadKamel, the friendly lizard doggo. Hello!
+// Code written by MadKamel, crystal oscillator personified. Hello!
 int AUDIO = 13;		// pin for speaker
 int L0 = 11;		// Lights 0 through 7
 int L1 = 10;
@@ -9,8 +9,7 @@ int L5 = 6;
 int L6 = 5;
 int L7 = 4;
 
-int gamespeed = 50;
-int sound_duration = 32;
+int gamespeed = 75;
 
 void setup() {
 	pinMode(AUDIO, OUTPUT);
@@ -59,6 +58,39 @@ void blip_audio(int pin, int speed, int speedmod) {
 	}
 }
 
+void endgame() {
+	digitalWrite(L0, HIGH);
+	digitalWrite(L7, HIGH);
+	digitalWrite(L1, LOW);
+	digitalWrite(L2, LOW);
+	digitalWrite(L3, LOW);
+	digitalWrite(L4, LOW);
+	digitalWrite(L5, LOW);
+	digitalWrite(L6, LOW);
+	beep_audio(AUDIO, 8);
+	beep_audio(AUDIO, 6);
+	beep_audio(AUDIO, 4);
+	beep_audio(AUDIO, 2);
+	beep_audio(AUDIO, 4);
+	beep_audio(AUDIO, 2);
+	delay(500);
+	beep_audio(AUDIO, 4);
+	beep_audio(AUDIO, 3);
+	beep_audio(AUDIO, 2);
+	beep_audio(AUDIO, 1);
+	beep_audio(AUDIO, 8);
+	beep_audio(AUDIO, 5);
+	beep_audio(AUDIO, 1);
+	digitalWrite(L0, LOW);
+	digitalWrite(L1, LOW);
+	digitalWrite(L2, LOW);
+	digitalWrite(L3, LOW);
+	digitalWrite(L4, LOW);
+	digitalWrite(L5, LOW);
+	digitalWrite(L6, LOW);
+	digitalWrite(L7, LOW);
+}
+
 // mainloop function- flashes each LED, going back and forth.
 void loop() {
 	blip_audio(AUDIO, 1, 16);
@@ -69,12 +101,17 @@ void loop() {
 	flash_light(L4, gamespeed);
 	flash_light(L5, gamespeed);
 	flash_light(L6, gamespeed);
-	flash_light(L7, gamespeed);
 	blip_audio(AUDIO, 1, 16);
+	flash_light(L7, gamespeed);
 	flash_light(L6, gamespeed);
 	flash_light(L5, gamespeed);
 	flash_light(L4, gamespeed);
 	flash_light(L3, gamespeed);
 	flash_light(L2, gamespeed);
 	flash_light(L1, gamespeed);
+	gamespeed = gamespeed - 1;
+	if(gamespeed < 10) {
+		endgame();
+		gamespeed = 75;
+	}
 }
